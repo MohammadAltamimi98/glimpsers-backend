@@ -6,7 +6,7 @@ const ParentSchema = new mongoose.Schema({
   name: String,
   imageUrl: String,
   interest: { movie: Boolean, news: Boolean },
-  posts: [{ childSchema }],
+  posts: [childSchema],
 });
 
 module.exports = ParentSchema;

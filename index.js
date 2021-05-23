@@ -4,8 +4,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const mongoose = require('mongoose');
-const Schema = require('./model/allDataSchema');
-// const ParentSchema = require('./model/parentSchema');
+const schema = require('./model/allDataSchema');
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -19,54 +18,51 @@ const PORT = process.env.PORT || 3070;
 app.get('/', (req, res) => {
   res.send('glimpsers');
 });
-function seed() {
-  const newData = new Schema.AllDataModel({
-    data: [{
-      email: 'morjaradat@gmail.com1111',
-      name: 'Mohammad Jaradat',
-      imageUrl: 'https://lh3.googleusercontent.com/a/AATXAJz80QsdnZHdfk8xCKP7KDew5wYRBcEglH7RQNbw=s96-c',
-      interest: { movie: false, news: false },
-      posts: [{}]
-    }]
 
-  });
-  newData.save();
-  console.log('seed done');
-}
-// seed();
-app.get('/data', Schema.filterData);
+app.get('/data', schema.filterData);
 
-app.post('/data', addUser);
+app.post('/addnewuser', (req, res) => {
+  const { email, name, imageUrl, movie, news, books, art } = req.body;
+  schema.user(email, name, imageUrl, movie, news, books, art);
+  res.send('New User Added');
+});
 
-function addUser(req, res) {
-  const { email } = req.body;
-  console.log(Schema.AllDataModel);
-  Schema.AllDataModel.find({ email: email }, (err, ownerData) => {
-    if (err === 'not found') {
-      console.log(ownerData);
-      console.log(err);
-      const { email, name, imageUrl, movie, news } = req.body;
-      console.log('this is', req.body);
-      const newUser = new Schema.AllDataModel({
-        data: [{
-          email: email,
-          name: name,
-          imageUrl: imageUrl,
-          interest: { movie: movie, news: news },
-          posts: [{}],
-        }]
-      });
-      console.log(newUser);
-      // Schema.AllDataModel.push(newUser.save());
-      res.send('ok');
-    } else {
-      console.log(ownerData);
-      console.log('else');
-      // ownerData[0].save();
-      res.send('aaaaa');
-    }
-  });
-}
+// app.put('/data', update);
+
+
+// function addUser(req, res) {
+//   const { email } = req.body;
+//   // console.log(schema.UserData);
+//   schema.UserData.find({ email: email }, (err, ownerData) => {
+//     if (ownerData.length === 0) {
+//       console.log(ownerData);
+//       console.log('in yessssssssssssss 11111111');
+//       const { email, name, imageUrl, movie, news, books, art } = req.body;
+// schema.user(email, name, imageUrl, movie, news);
+// console.log('this is', req.body);
+// const newData = new schema.UserData({
+//   email: email,
+//   name: name,
+//   data: [{
+//     imageUrl: imageUrl,
+//     interest: { movie: movie, news: news },
+//     posts: [{}],
+//   }]
+// });
+// console.log('in yessssssssssssss 22222222222');
+// newData.save();
+// console.log(newData);
+// res.send('ok');
+//     } else {
+//       console.log(ownerData);
+//       console.log('else');
+//       // ownerData[0].save();
+//       res.send('aaaaa');
+//     }
+//   });
+// }
+
+
 
 app.listen(PORT, () => {
   console.log(`Server started on ${PORT}`);

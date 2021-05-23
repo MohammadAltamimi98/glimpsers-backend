@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
   commet: String,
-  date: Number,
+  date: String,
   commenterImage: String,
   nameOfCommenter: String,
   numberOfLikes: Number,
 });
 
-module.exports=commentSchema;
+module.exports = commentSchema;
