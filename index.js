@@ -33,6 +33,31 @@ app.post('/addnewuser', (req, res) => {
   res.send('New User Added');
 });
 
+app.post('/addnewpost', addNewPost);
+
+function addNewPost(req, res) {
+  const { email, description, date, numberOfLikes, post, commit } = req.body;
+  if (post === true) {
+    console.log('post');
+    schema.UserData.find({ email: email }, (error, ownerData) => {
+      if (error) res.send('didnt work creat');
+      ownerData[0].posts.push({
+        description: description,
+        date: date,
+        numberOfLikes: numberOfLikes,
+        comments: []
+      });
+      ownerData[0].save();
+      res.send(ownerData[0].posts);
+    });
+  } else if (commit === true) {
+    console.log('commit');
+  } else {
+    res.send('wrong data');
+  }
+
+}
+
 app.listen(PORT, () => {
   console.log(`Server started on ${PORT}`);
 });
