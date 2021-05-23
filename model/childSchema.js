@@ -5,7 +5,7 @@ const childSchema = new mongoose.Schema({
   description: String,
   date: String,
   numberOfLikes: Number,
-  comments: [commentSchema],
+  commentsArray: [commentSchema],
 });
 
 module.exports = childSchema;
