@@ -4,6 +4,13 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const mongoose = require('mongoose');
+const handleMovie = require('./model/movies');
+const handleNews = require('./model/news');
+const handleBooks = require('./model/books');
+const handleArt = require('./model/art');
+// const seed = require('./model/interestSchema');
+
+
 
 const schema = require('./model/allDataSchema');
 
@@ -21,11 +28,22 @@ mongoose.connect(
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 
+//API's
+app.get('/movie', handleMovie);
+app.get('/art', handleArt);
+app.get('/news', handleNews);
+app.get('/books', handleBooks);
+
+
+// this is our basic seed for interest schema (done by m.t & m.j)
+// seed();
+
 app.get('/', (req, res) => {
   res.send('glimpsers');
 });
 
 app.get('/data', schema.filterData);
+
 
 app.post('/addnewuser', (req, res) => {
   const { email, name, imageUrl, movie, news, books, art } = req.body;
@@ -85,3 +103,44 @@ function addNewPost(req, res) {
 app.listen(PORT, () => {
   console.log(`Server started on ${PORT}`);
 });
+
+
+
+//const express = require('express') // require the express package
+// const app = express() // initialize your express app instance
+// const handleMovie = require('./model/movies')
+// const cors = require('cors')
+// const handleNews = require('./model/news');
+// const handleBooks = require('./model/books');
+// const handleArt = require('./model/art');
+// const mongoose = require('mongoose');
+// const seed = require('./model/interestSchema')
+
+
+// app.use(cors());
+
+// mongoose.connect('mongodb://localhost:27017/interests', { useNewUrlParser: true, useUnifiedTopology: true });
+
+// const db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'connection error:'));
+// db.once('open', function () {
+//   console.log('Mongoose is connected')
+// });
+
+
+// // a server endpoint 
+// app.get('/', // our endpoint name
+//   function (req, res) { // callback function of what we should do with our request
+//     res.send('Hello World') // our endpoint function response
+//   })
+
+// // seed();
+
+// app.get('/movie', handleMovie)
+// app.get('/art', handleArt)
+// app.get('/news', handleNews)
+// app.get('/books', handleBooks)
+
+
+// app.listen(3009);
+
