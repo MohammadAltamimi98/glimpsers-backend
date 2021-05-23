@@ -22,8 +22,6 @@ function handleArt(req, res) {
     };
     console.log(cacheMemory);
 
-
-
     if (cacheMemory[limit, page, fields]) {
       console.log(' we got the art from the cache');
 
@@ -39,7 +37,6 @@ function handleArt(req, res) {
         res.send(artArray);
       });
     }
-
 
   }
   catch (error) { console.log(error); }

@@ -25,7 +25,6 @@ function handleBooks(req, res) {
       price: price,
     };
 
-
     if (cacheMemoryBooks[price]) {
       console.log(' we got the books from the cache');
 
