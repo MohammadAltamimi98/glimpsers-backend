@@ -1,0 +1,1 @@
+const env = (str) => `${str.replace(/[^a-zA-Z ]/g, '')}`.split(' ').join('_').toUpperCase();

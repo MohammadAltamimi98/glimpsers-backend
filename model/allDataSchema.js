@@ -6,13 +6,18 @@ const allDataSchema = new mongoose.Schema({
   email: String,
   name: String,
   imageUrl: String,
-  interest: { movie: Boolean, news: Boolean, books: Boolean, art: Boolean, },
+  interest: {
+    movie: Boolean,
+    news: Boolean,
+    books: Boolean,
+    art: Boolean,
+  },
   posts: [childSchema],
 });
 
 const UserData = mongoose.model('data', allDataSchema);
 
-async function user(email, name, imageUrl, movie, news, books, art) {
+const user = async (email, name, imageUrl, movie, news, books, art) => {
   const newData = new UserData({
     email: email,
     name: name,
@@ -24,7 +29,7 @@ async function user(email, name, imageUrl, movie, news, books, art) {
   console.log('newUser added');
 }
 
-function filterData(req, res) {
+const filterData = (req, res) => {
   const { email } = req.query;
   console.log(email);
   UserData.find({ email: email }, function (err, ownerData) {
@@ -37,4 +42,4 @@ function filterData(req, res) {
   });
 }
 
-module.exports = { filterData, UserData, user };
+module.exports = { UserData, user, filterData };
