@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
-  commet: String,
+  comment: String,
   date: String,
   commenterImage: String,
   nameOfCommenter: String,
