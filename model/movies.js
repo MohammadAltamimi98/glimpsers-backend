@@ -3,7 +3,7 @@ require('dotenv').config();
 const superagent = require('superagent');
 const MOVIE_API_KEY = process.env.MOVIE_API_KEY;
 
-const cacheMemory = require('./cacheMemory');
+// const cacheMemory = require('../cache/cacheMemory');
 
 function handleMovie(req, res) {
 
@@ -21,25 +21,25 @@ function handleMovie(req, res) {
       page: page
 
     };
-    console.log(cacheMemory);
+    // console.log(cacheMemory);
 
 
 
-    if (cacheMemory[language, page]) {
-      console.log(' we got the movie from the cache');
+    // if (cacheMemory[language, page]) {
+    //   console.log(' we got the movie from the cache');
 
-      res.status(200).send(cacheMemory[page, language]);
-    }
+    //   res.status(200).send(cacheMemory[page, language]);
+    // }
 
-    else {
-      superagent.get(movieUrl).query(params).then(movieDbData => {
-        const movieArray = movieDbData.body.results.map(data => new Movie(data));
-        cacheMemory[page, language] = movieArray;
-        movieArray.length = 20; // to set the array response we get to only 12 movies.
-        console.log(' we got the movie from the api');
-        res.send(movieArray);
-      });
-    }
+    // else {
+    superagent.get(movieUrl).query(params).then(movieDbData => {
+      const movieArray = movieDbData.body.results.map(data => new Movie(data));
+      // cacheMemory[page, language] = movieArray;
+      movieArray.length = 20; // to set the array response we get to only 12 movies.
+      console.log(' we got the movie from the api');
+      res.send(movieArray);
+    });
+    // }
 
 
   }

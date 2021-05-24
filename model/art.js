@@ -3,7 +3,7 @@ require('dotenv').config();
 const superagent = require('superagent');
 
 
-const cacheMemory = require('./cacheArtMemory');
+// const cacheMemory = require('../cache/cacheArtMemory');
 
 function handleArt(req, res) {
 
@@ -20,23 +20,23 @@ function handleArt(req, res) {
       limit: limit,
       fields: fields
     };
-    console.log(cacheMemory);
 
-    if (cacheMemory[limit, page, fields]) {
-      console.log(' we got the art from the cache');
 
-      res.status(200).send(cacheMemory[page, limit, fields]);
-    }
+    // if (cacheMemory[limit, page, fields]) {
+    //   console.log(' we got the art from the cache');
 
-    else {
-      superagent.get(artUrl).query(params).then(artDbData => {
-        const artArray = artDbData.body.data.map(element => new Art(element));
-        cacheMemory[page, limit, fields] = artArray;
-        artArray.length = 20;
-        console.log(' we got the art from the api');
-        res.send(artArray);
-      });
-    }
+    //   res.status(200).send(cacheMemory[page, limit, fields]);
+    // }
+
+    // else {
+    superagent.get(artUrl).query(params).then(artDbData => {
+      const artArray = artDbData.body.data.map(element => new Art(element));
+      // cacheMemory[page, limit, fields] = artArray;
+      artArray.length = 20;
+      console.log(' we got the art from the api');
+      res.send(artArray);
+    });
+    // }
 
   }
   catch (error) { console.log(error); }
