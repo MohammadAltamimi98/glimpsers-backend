@@ -13,7 +13,6 @@ function handleMovie(req, res) {
     const language = req.query.language;
     const page = req.query.page;
 
-
     const params = {
       // api_key: MOVIE_API_KEY,
       // query: page,language,
@@ -22,8 +21,6 @@ function handleMovie(req, res) {
 
     };
     // console.log(cacheMemory);
-
-
 
     // if (cacheMemory[language, page]) {
     //   console.log(' we got the movie from the cache');
@@ -46,11 +43,6 @@ function handleMovie(req, res) {
   catch (error) { console.log(error); }
 
 }
-
-
-
-
-
 
 class Movie {
   constructor(data) {

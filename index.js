@@ -92,6 +92,7 @@ function addNewPost(req, res) {
   }
 
 }
+
 app.put('/updatepost/:index', updatepost);
 
 function updatepost(req, res) {
