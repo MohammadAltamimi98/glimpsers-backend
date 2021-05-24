@@ -54,9 +54,9 @@ app.post('/addnewuser', (req, res) => {
 app.post('/addnewpost', addNewPost);
 
 function addNewPost(req, res) {
-  const { email, description, date, numberOfLikes, post, commit, comment, commenterImage, nameOfCommenter } = req.body;
+  const { email, description, date, numberOfLikes, postindex, post, commit, comment, commenterImage, nameOfCommenter } = req.body;
   if (post === true) {
-    console.log('post');
+    // console.log('post');
     schema.UserData.find({ email: email }, (error, ownerData) => {
       if (error) res.send('didnt work creat');
 
@@ -71,16 +71,13 @@ function addNewPost(req, res) {
 
     });
   } else if (commit === true) {
-    console.log('commit');
-
-
-
+    const postIndex = Number(postindex);
     schema.UserData.find({ email: email }, (error, ownerData) => {
       if (error) res.send('didnt work creat at comment');
-      console.log('in comment ');
-      console.log(ownerData[0].posts[0].commentsArray);
+      // console.log('in comment ');
+      // console.log(ownerData[0].posts[0].commentsArray);
 
-      ownerData[0].posts[0].commentsArray.push({
+      ownerData[0].posts[postIndex].commentsArray.push({
 
         comment: comment,
         date: date,
@@ -90,57 +87,90 @@ function addNewPost(req, res) {
 
       });
       ownerData[0].save();
-      res.send(ownerData[0].posts[0].commentsArray);
+      res.send(ownerData[0].posts[postIndex].commentsArray);
     });
-
-
   } else {
     res.send('wrong data');
   }
 
 }
+app.put('/updatepost/:index', updatepost);
+
+function updatepost(req, res) {
+  // console.log('in');
+  const { email, description, date, numberOfLikes, commentIndex, updatePost, updateCommit, comment, commenterImage, nameOfCommenter } = req.body;
+  const postIndex = Number(req.params.index);
+  if (updatePost === true) {
+    // console.log('updatePost');
+    schema.UserData.find({ email: email }, (error, ownerData) => {
+      if (error) res.send('didnt work update post');
+      // console.log(ownerData[0].posts[postIndex]);
+      ownerData[0].posts[postIndex].description = description;
+      ownerData[0].posts[postIndex].date = date;
+      ownerData[0].posts[postIndex].numberOfLikes = numberOfLikes;
+
+      ownerData[0].save();
+      res.send(ownerData[0].posts);
+
+    });
+  } else if (updateCommit === true) {
+    const commientindex = Number(commentIndex);
+    // console.log('updateCommit');
+    schema.UserData.find({ email: email }, (error, ownerData) => {
+      if (error) res.send('didnt work update comment');
+      // console.log('in comment ');
+      // console.log(commientindex);
+      // console.log(ownerData[0].posts[postIndex].commentsArray[commientindex]);
+
+      ownerData[0].posts[postIndex].commentsArray[commientindex].comment = comment;
+      ownerData[0].posts[postIndex].commentsArray[commientindex].date = date;
+      ownerData[0].posts[postIndex].commentsArray[commientindex].commenterImage = commenterImage;
+      ownerData[0].posts[postIndex].commentsArray[commientindex].nameOfCommenter = nameOfCommenter;
+      ownerData[0].posts[postIndex].commentsArray[commientindex].numberOfLikes = numberOfLikes;
+
+      ownerData[0].save();
+      res.send(ownerData[0].posts[postIndex].commentsArray[commientindex]);
+    });
+  }
+}
+app.delete('/deletepost/:index', deletePost);
+
+function deletePost(req, res) {
+  const index = Number(req.params.index);
+  // console.log('in delete');
+  const { email, commentindex, commentFlag, postFlag } = req.query;
+  // console.log(req.query);
+  if (postFlag === '1') {
+    // console.log('in  post delete');
+    schema.UserData.find({ email: email }, (error, ownerData) => {
+      if (error) res.send('didnt work delete');
+      const newPostArr = ownerData[0].posts.filter((posts, idx) => {
+        return idx !== index;
+      });
+      ownerData[0].posts = newPostArr;
+      ownerData[0].save();
+      res.send(' post deleted!');
+    });
+  } else if (commentFlag === '1') {
+    // console.log('in  comment delete');
+    const commentIndex = Number(commentindex);
+    schema.UserData.find({ email: email }, (error, ownerData) => {
+      if (error) res.send('didnt work delete');
+      const newPostArr = ownerData[0].posts[index].commentsArray.filter((comment, idx) => {
+        return idx !== commentIndex;
+      });
+      ownerData[0].posts[index].commentsArray = newPostArr;
+      ownerData[0].save();
+      res.send(' comment deleted!');
+    });
+  } else {
+    res.send('bad request ');
+  }
+
+}
+
 
 app.listen(PORT, () => {
   console.log(`Server started on ${PORT}`);
 });
-
-
-
-//const express = require('express') // require the express package
-// const app = express() // initialize your express app instance
-// const handleMovie = require('./model/movies')
-// const cors = require('cors')
-// const handleNews = require('./model/news');
-// const handleBooks = require('./model/books');
-// const handleArt = require('./model/art');
-// const mongoose = require('mongoose');
-// const seed = require('./model/interestSchema')
-
-
-// app.use(cors());
-
-// mongoose.connect('mongodb://localhost:27017/interests', { useNewUrlParser: true, useUnifiedTopology: true });
-
-// const db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'connection error:'));
-// db.once('open', function () {
-//   console.log('Mongoose is connected')
-// });
-
-
-// // a server endpoint 
-// app.get('/', // our endpoint name
-//   function (req, res) { // callback function of what we should do with our request
-//     res.send('Hello World') // our endpoint function response
-//   })
-
-// // seed();
-
-// app.get('/movie', handleMovie)
-// app.get('/art', handleArt)
-// app.get('/news', handleNews)
-// app.get('/books', handleBooks)
-
-
-// app.listen(3009);
 
