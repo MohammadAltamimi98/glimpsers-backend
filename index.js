@@ -10,8 +10,6 @@ const handleBooks = require('./model/books');
 const handleArt = require('./model/art');
 // const seed = require('./model/interestSchema');
 
-
-
 const schema = require('./model/allDataSchema');
 
 const app = express();
@@ -168,7 +166,6 @@ function deletePost(req, res) {
   }
 
 }
-
 
 app.listen(PORT, () => {
   console.log(`Server started on ${PORT}`);
