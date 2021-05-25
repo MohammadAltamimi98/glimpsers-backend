@@ -154,8 +154,8 @@ function deletePost(req, res) {
   } else if (commentFlag === '1') {
     // console.log('in  comment delete');
     const commentIndex = Number(commentNum);
-    console.log(commentIndex);
-    console.log(commentNum);
+    // console.log(commentIndex);
+    // console.log(commentNum);
 
 
     schema.UserData.find({ email: email }, (error, ownerData) => {
