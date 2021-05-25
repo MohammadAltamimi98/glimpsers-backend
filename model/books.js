@@ -49,6 +49,4 @@ function handleBooks(req, res) {
 
 }
 
-
-
 module.exports = handleBooks;
