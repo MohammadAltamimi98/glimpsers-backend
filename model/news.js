@@ -60,9 +60,4 @@ function handleNews(req, res) {
 
 }
 
-
-
-
-
-
 module.exports = handleNews;

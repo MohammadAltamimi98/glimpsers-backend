@@ -50,10 +50,7 @@ class Movie {
     this.image = 'http://image.tmdb.org/t/p/w342' + data.poster_path;
     this.releaseDate = data.release_date;
     this.rating = data.vote_average;
-
   }
-
 }
-
 
 module.exports = handleMovie;

@@ -5,6 +5,7 @@ const childSchema = new mongoose.Schema({
   description: String,
   date: String,
   numberOfLikes: Number,
+  imageUrl: String,
   commentsArray: [commentSchema],
 });
 

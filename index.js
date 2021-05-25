@@ -52,20 +52,21 @@ app.post('/addnewuser', (req, res) => {
 app.post('/addnewpost', addNewPost);
 
 function addNewPost(req, res) {
-  const { email, description, date, numberOfLikes, postindex, post, commit, comment, commenterImage, nameOfCommenter } = req.body;
+  const { email, description, date, numberOfLikes, imageUrl, postindex, post, commit, comment, commenterImage, nameOfCommenter } = req.body;
   if (post === true) {
     // console.log('post');
     schema.UserData.find({ email: email }, (error, ownerData) => {
       if (error) res.send('didnt work creat');
 
-      ownerData[0].posts.push({
+      ownerData[0].posts.unshift({
         description: description,
         date: date,
         numberOfLikes: numberOfLikes,
+        imageUrl: imageUrl,
         commentsArray: []
       });
       ownerData[0].save();
-      res.send(ownerData[0].posts);
+      res.send(ownerData[0]);
 
     });
   } else if (commit === true) {
@@ -85,7 +86,7 @@ function addNewPost(req, res) {
 
       });
       ownerData[0].save();
-      res.send(ownerData[0].posts[postIndex].commentsArray);
+      res.send(ownerData[0]);
     });
   } else {
     res.send('wrong data');
