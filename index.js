@@ -137,8 +137,8 @@ app.delete('/deletepost/:index', deletePost);
 
 function deletePost(req, res) {
   const index = Number(req.params.index);
-  // console.log('in delete');
-  const { email, commentindex, commentFlag, postFlag } = req.query;
+  console.log(index);
+  const { email, commentNum, commentFlag, postFlag } = req.query;
   // console.log(req.query);
   if (postFlag === '1') {
     // console.log('in  post delete');
@@ -149,11 +149,15 @@ function deletePost(req, res) {
       });
       ownerData[0].posts = newPostArr;
       ownerData[0].save();
-      res.send(' post deleted!');
+      res.send(ownerData[0]);
     });
   } else if (commentFlag === '1') {
     // console.log('in  comment delete');
-    const commentIndex = Number(commentindex);
+    const commentIndex = Number(commentNum);
+    console.log(commentIndex);
+    console.log(commentNum);
+
+
     schema.UserData.find({ email: email }, (error, ownerData) => {
       if (error) res.send('didnt work delete');
       const newPostArr = ownerData[0].posts[index].commentsArray.filter((comment, idx) => {
@@ -161,7 +165,7 @@ function deletePost(req, res) {
       });
       ownerData[0].posts[index].commentsArray = newPostArr;
       ownerData[0].save();
-      res.send(' comment deleted!');
+      res.send(ownerData[0]);
     });
   } else {
     res.send('bad request ');
