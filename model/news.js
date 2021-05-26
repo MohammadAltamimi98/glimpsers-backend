@@ -5,8 +5,6 @@ const NEWS_API_KEY = process.env.NEWS_API_KEY;
 
 // const cacheMemoryNews = require('../cache/cacheMemoryNews');
 
-
-
 class News {
   constructor(data) {
     this.author = data.author;
@@ -59,10 +57,5 @@ function handleNews(req, res) {
   catch (error) { console.log(error); }
 
 }
-
-
-
-
-
 
 module.exports = handleNews;
