@@ -8,7 +8,10 @@ const handleMovie = require('./model/movies');
 const handleNews = require('./model/news');
 const handleBooks = require('./model/books');
 const handleArt = require('./model/art');
-// const seed = require('./model/interestSchema');
+const cats = require('./model/cats');
+const qosts = require('./model/qostd');
+
+// const seed = require('./model/interestSchema'); qost
 
 const schema = require('./model/allDataSchema');
 
@@ -31,6 +34,9 @@ app.get('/movie', handleMovie);
 app.get('/art', handleArt);
 app.get('/news', handleNews);
 app.get('/books', handleBooks);
+app.get('/cats', cats);
+app.get('/qosts', qosts);
+
 
 
 // this is our basic seed for interest schema (done by m.t & m.j)

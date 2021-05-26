@@ -37,11 +37,8 @@ function handleMovie(req, res) {
       res.send(movieArray);
     });
     // }
-
-
   }
   catch (error) { console.log(error); }
-
 }
 
 class Movie {
