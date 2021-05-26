@@ -54,10 +54,13 @@ app.get('/data', schema.filterData);
 
 
 app.post('/addnewuser', (req, res) => {
-  const { email, name, imageUrl, movie, news, books, art } = req.body;
-  schema.user(email, name, imageUrl, movie, news, books, art);
+  const { email, name, imageUrl, movie, news, books, art, cats, food } = req.body;
+  schema.user(email, name, imageUrl, movie, news, books, art, cats, food);
   res.send('New User Added');
+
+
 });
+
 
 app.post('/addnewpost', addNewPost);
 
@@ -107,7 +110,7 @@ function addNewPost(req, res) {
 app.put('/updatepost/:index', updatepost);
 
 function updatepost(req, res) {
-  // console.log('in');
+  console.log('in Update');
   const { email, description, date, numberOfLikes, commentIndex, updatePost, updateCommit, comment, commenterImage, nameOfCommenter } = req.body;
   const postIndex = Number(req.params.index);
   if (updatePost === true) {
@@ -115,12 +118,13 @@ function updatepost(req, res) {
     schema.UserData.find({ email: email }, (error, ownerData) => {
       if (error) res.send('didnt work update post');
       // console.log(ownerData[0].posts[postIndex]);
+      console.log('in post Update');
       ownerData[0].posts[postIndex].description = description;
       ownerData[0].posts[postIndex].date = date;
       ownerData[0].posts[postIndex].numberOfLikes = numberOfLikes;
 
       ownerData[0].save();
-      res.send(ownerData[0].posts);
+      res.send(ownerData[0]);
 
     });
   } else if (updateCommit === true) {
@@ -139,7 +143,7 @@ function updatepost(req, res) {
       ownerData[0].posts[postIndex].commentsArray[commientindex].numberOfLikes = numberOfLikes;
 
       ownerData[0].save();
-      res.send(ownerData[0].posts[postIndex].commentsArray[commientindex]);
+      res.send(ownerData[0]);
     });
   }
 }
@@ -181,6 +185,30 @@ function deletePost(req, res) {
     res.send('bad request ');
   }
 
+}
+
+app.put('/updateinterest', updateinterest);
+
+function updateinterest(req, res) {
+  console.log('updateinterest');
+  const { email, movie, news, books, art, cats, food } = req.body;
+  schema.UserData.find({ email: email }, (error, ownerData) => {
+    if (error) res.send('didnt work update post');
+
+    console.log('updateinterest');
+
+    ownerData[0].interest.movie = movie;
+    ownerData[0].interest.news = news;
+    ownerData[0].interest.books = books;
+    ownerData[0].interest.art = art;
+    ownerData[0].interest.cats = cats;
+    ownerData[0].interest.food = food;
+
+
+    ownerData[0].save();
+    res.send(ownerData[0]);
+
+  });
 }
 
 app.listen(PORT, () => {

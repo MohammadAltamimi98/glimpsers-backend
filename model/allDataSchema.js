@@ -11,18 +11,21 @@ const allDataSchema = new mongoose.Schema({
     news: Boolean,
     books: Boolean,
     art: Boolean,
+    cats: Boolean,
+    food: Boolean,
   },
   posts: [childSchema],
 });
 
 const UserData = mongoose.model('data', allDataSchema);
 
-const user = async (email, name, imageUrl, movie, news, books, art) => {
+const user = async (email, name, imageUrl, movie, news, books, art, cats,
+  food) => {
   const newData = new UserData({
     email: email,
     name: name,
     imageUrl: imageUrl,
-    interest: { movie: movie, news: news, books: books, art: art },
+    interest: { movie: movie, news: news, books: books, art: art, cats: cats, food: food },
     posts: []
   });
   await newData.save()
