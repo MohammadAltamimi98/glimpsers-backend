@@ -19,8 +19,7 @@ const allDataSchema = new mongoose.Schema({
 
 const UserData = mongoose.model('data', allDataSchema);
 
-const user = async (email, name, imageUrl, movie, news, books, art, cats,
-  food) => {
+const user = async (email, name, imageUrl, movie, news, books, art, cats, food) => {
   const newData = new UserData({
     email: email,
     name: name,
@@ -28,13 +27,11 @@ const user = async (email, name, imageUrl, movie, news, books, art, cats,
     interest: { movie: movie, news: news, books: books, art: art, cats: cats, food: food },
     posts: []
   });
-  await newData.save()
-  console.log('newUser added');
+  await newData.save();
 }
 
 const filterData = (req, res) => {
   const { email } = req.query;
-  console.log(email);
   UserData.find({ email: email }, function (err, ownerData) {
     if (ownerData.length === 0) {
       res.send('not found');

@@ -2,8 +2,8 @@ const quote = require('../assets/quotes.json');
 
 function quotes(req, res) {
 
-  const random = Number(getRndInteger(1, 100));
-  res.sent(quote[random]);
+  const random = Number(getRndInteger(1, 200));
+  res.send(quote[random]);
 }
 
 function getRndInteger(min, max) {
