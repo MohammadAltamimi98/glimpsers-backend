@@ -9,8 +9,6 @@ function handlefood(req, res) {
 
   try {
     const foodUrl = `https://api.edamam.com/search`;
-    // const page,ingredients = req.query.query;
-    // const ingredients = req.query.ingredients;
     const ingredients = req.query.q;
 
 
@@ -18,16 +16,11 @@ function handlefood(req, res) {
       app_id: FOOD_APP_ID,
       app_key: FOOD_APP_KEY,
       q: ingredients,
-      // query: page,ingredients,
-
-
     };
-    console.log(cacheMemory);
 
 
 
     if (cacheMemory[ingredients]) {
-      console.log(' we got the food from the cache');
 
       res.status(200).send(cacheMemory[ingredients]);
     }
@@ -36,8 +29,7 @@ function handlefood(req, res) {
       superagent.get(foodUrl).query(params).then(foodDbData => {
         const foodArray = foodDbData.body.hits.map(recipe => new Food((recipe.recipe)));
         cacheMemory[ingredients] = foodArray;
-        foodArray.length = 20; // to set the array response we get to only 12 foods.
-        console.log(' we got the food from the api');
+        foodArray.length = 20;
         res.send(foodArray);
 
 
